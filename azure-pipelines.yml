@@ -6,7 +6,6 @@ steps:
 - bash: |
     sudo sh -c 'printf "APT::Get::Assume-Yes \"true\";\nAPT::Get::force-yes \"true\";" > /etc/apt/apt.conf.d/01qmk-build'
     sudo util/linux_install.sh
-    make tkc1800:default
 - bash: |
     make tkc1800:timiz0r
 - task: PublishBuildArtifacts@1
