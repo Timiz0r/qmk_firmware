@@ -8,7 +8,7 @@ steps:
     sudo util/linux_install.sh
     make tkc1800:default
 - bash: |
-  make tkc1800:timiz0r
+    make tkc1800:timiz0r
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '.build'
