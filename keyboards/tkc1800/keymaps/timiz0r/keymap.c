@@ -26,7 +26,7 @@
 
 enum layers {
   BASE = 0,
-  FUNC,
+  FUN1,
   FUN2
 };
 
