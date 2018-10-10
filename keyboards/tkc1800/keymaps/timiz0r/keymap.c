@@ -30,10 +30,6 @@ enum layers {
   FUN2
 };
 
-enum custom_keycodes {
-
-};
-
 //13 characters max without re-writing the "Layer: " format in iota_gfx_task_user()
 static char layer_lookup[][14] = {"Base","Function", "Function2"};
 
