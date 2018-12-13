@@ -1,13 +1,16 @@
 name: 'Azure Pipelines QMK'
 trigger: [ 'master' ]
 pool:
-  name: 'Hosted Ubuntu 1604'
+    name: 'Hosted Ubuntu 1604'
 steps:
 - bash: |
     sudo sh -c 'printf "APT::Get::Assume-Yes \"true\";\nAPT::Get::force-yes \"true\";" > /etc/apt/apt.conf.d/01qmk-build'
     sudo util/linux_install.sh
 - bash: |
     make tkc1800:timiz0r
-- task: PublishBuildArtifacts@1
+- task: CopyFiles@2
   inputs:
-    pathToPublish: '.build'
+    contents: .build/*.hex
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+- task: PublishBuildArtifacts@1
