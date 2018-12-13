@@ -22,17 +22,15 @@
 #define MODS_SHFT_MASK  (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT)|MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
 #define MODS_GUI_MASK   (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
 
+#define M_START LCTL(KC_HOME)
+#define M_END LCTL(KC_END)
+
 //Layers
 
 enum layers {
   BASE = 0,
   FUN1,
   FUN2
-};
-
-enum misc_keycodes {
-  M_START = SAFE_RANGE,
-  M_END
 };
 
 //13 characters max without re-writing the "Layer: " format in iota_gfx_task_user()
@@ -93,16 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
-// const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {};
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (keycode == M_START) {
-    SEND_STRING(SS_LCTRL(SS_TAP(X_HOME)));
-  }
-  else if (keycode == M_END) {
-    SEND_STRING(SS_LCTRL(SS_TAP(X_END)));
-  }
-
   return true;
 }
 
