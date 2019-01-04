@@ -19,9 +19,6 @@
 #include "ssd1306.h"
 
 
-#define MODS_SHFT_MASK  (MOD_BIT(KC_LSHIFT)|MOD_BIT(KC_RSHIFT)|MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
-#define MODS_GUI_MASK   (MOD_BIT(KC_LGUI)|MOD_BIT(KC_RGUI))
-
 #define M_START LCTL(KC_HOME)
 #define M_END LCTL(KC_END)
 
@@ -86,12 +83,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, B(TRNS),          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
     KC_TRNS, M_END  , KC_PGUP, M_START, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
     KC_TRNS, KC_HOME, KC_PGDN, KC_END , KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-    KC_TRNS, KC_TRNS, KC_TRNS, RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
     KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS,                            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, RESET  
   ),
 };
 
+//returns true if handled for ime
+bool handle_ime(uint16_t keycode, keyrecord_t *record) {
+  if (keycode != L(FUN2)) return false;
+
+  if (get_mods() & MOD_BIT(KC_LALT) ||
+      get_mods() & MOD_BIT(KC_LCTL) ||
+      get_mods() & MOD_BIT(KC_LSFT)) {
+    SEND_STRING(SS_TAP(X_CAPSLOCK));
+    return true;
+  }
+
+  return false;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (handle_ime(keycode, record)) return false;
   return true;
 }
 
