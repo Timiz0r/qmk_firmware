@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 //returns true if handled for ime
 bool handle_ime(uint16_t keycode, keyrecord_t *record) {
-  if (keycode != L(FUN2)) return false;
+  if (keycode != L(FUN2) || !record->event.pressed) return false;
 
   if (get_mods() & MOD_BIT(KC_LALT) ||
       get_mods() & MOD_BIT(KC_LCTL) ||
