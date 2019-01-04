@@ -32,3 +32,5 @@ AUDIO_ENABLE = no           # Audio output on port C6
 
 SRC = i2c.c \
 	  ssd1306.c
+
+TAP_DANCE_ENABLE=yes
