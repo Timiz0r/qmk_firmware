@@ -39,11 +39,13 @@ static char layer_lookup[][14] = {"Base","Function", "Function2"};
 //L for layer
 #define L(...) MO(__VA_ARGS__)
 
+void tap_cap_fun2_fin(qk_tap_dance_state_t *state, void *user_data);
+void tap_cap_fun2_rst(qk_tap_dance_state_t *state, void *user_data);
 enum {
-  TD_CAP2
+  TD_CP2
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_CAP2]  = ACTION_TAP_DANCE_DOUBLE(L(FUN2), KC_CAPS)
+  [TD_CP2]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, tap_cap_fun2_fin, tap_cap_fun2_rst)
 };
 #define TP(td) TD(TD_##td)
 
@@ -72,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /**/                                                                                                                                   KC_DEL , KC_END , KC_PGDN, L(FUN2), \
     KC_GRV , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   , KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_MINS, KC_EQL , B(BSPC),          KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS, \
     KC_TAB , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   , KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_LBRC, KC_RBRC, KC_BSLS,          KC_P7  , KC_P8  , KC_P9  , KC_NO  , \
-    TP(CAP2), KC_A   , KC_S   , KC_D   , KC_F   , KC_G   , KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, KC_QUOT, KC_NO  , KC_ENT ,          KC_P4  , KC_P5  , KC_P6  , KC_PPLS, \
+    TP(CP2), KC_A   , KC_S   , KC_D   , KC_F   , KC_G   , KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, KC_QUOT, KC_NO  , KC_ENT ,          KC_P4  , KC_P5  , KC_P6  , KC_PPLS, \
     KC_LSFT, KC_NO  , KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,          KC_UP  , KC_P1  , KC_P2  , KC_P3  , KC_NO  , \
     KC_LCTL, KC_LGUI, KC_LALT,                            KC_SPC ,                            KC_NO  , L(FUN1), KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT, KC_P0  , KC_PDOT, KC_PENT
   ),
@@ -113,6 +115,19 @@ bool handle_ime(uint16_t keycode, keyrecord_t *record) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (handle_ime(keycode, record)) return false;
   return true;
+}
+
+void tap_cap_fun2_fin(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->pressed) {
+    layer_on(FUN2);
+  }
+  else if (state->count == 2) {
+    register_code(KC_CAPS);
+  }
+}
+
+void tap_cap_fun2_rst(qk_tap_dance_state_t *state, void *user_data) {
+  layer_off(FUN2);
 }
 
 void led_set_user(uint8_t usb_led) {
