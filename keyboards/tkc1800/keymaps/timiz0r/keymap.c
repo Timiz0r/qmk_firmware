@@ -98,26 +98,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
-//returns true if handled for ime
-bool handle_ime(uint16_t keycode, keyrecord_t *record) {
-  if (keycode != L(FUN2) || !record->event.pressed) return false;
-
-  if (get_mods() & MOD_BIT(KC_LALT) ||
-      get_mods() & MOD_BIT(KC_LCTL) ||
-      get_mods() & MOD_BIT(KC_LSFT)) {
-    SEND_STRING(SS_TAP(X_CAPSLOCK));
-    return true;
-  }
-
-  return false;
+bool has_mod(uint16_t mod) {
+  return get_mods() & MOD_BIT(mod);
+}
+bool has_ime_mod(void) {
+  return
+    has_mod(KC_LALT) ||
+    has_mod(KC_LCTL) ||
+    has_mod(KC_LSFT);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (handle_ime(keycode, record)) return false;
   return true;
 }
 
 void tap_cap_fun2_fin(qk_tap_dance_state_t *state, void *user_data) {
+  //special case for IME
+  if (state->count == 1 && !state->pressed && has_ime_mod()) {
+    register_code(KC_CAPS);
+    reset_tap_dance(state); //occassionally will double-tap caps to get to katakana
+    return;
+  }
+
   if (state->pressed) {
     layer_on(FUN2);
   }
