@@ -8,6 +8,7 @@ steps:
     sudo util/linux_install.sh
 - bash: |
     make tkc1800:timiz0r
+    make planck/rev6:timiz0r
 - task: CopyFiles@2
   inputs:
     contents: .build/*.hex
