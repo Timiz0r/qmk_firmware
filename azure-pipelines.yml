@@ -7,6 +7,7 @@ steps:
     sudo sh -c 'printf "APT::Get::Assume-Yes \"true\";\nAPT::Get::force-yes \"true\";" > /etc/apt/apt.conf.d/01qmk-build'
     sudo util/linux_install.sh
 - bash: |
+    make git-submodule
     make tkc1800:timiz0r
     make planck/rev6:timiz0r
     make donutcables/budget96:timiz0r
