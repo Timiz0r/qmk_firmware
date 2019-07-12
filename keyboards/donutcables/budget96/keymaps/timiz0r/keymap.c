@@ -72,6 +72,12 @@ void tap_cap_fun2_fin(qk_tap_dance_state_t *state, void *user_data) {
   else if (state->count == 2) {
     register_code(KC_CAPS);
   }
+  else if (state->count > 2)
+  {
+    //tap dance isnt working after the first double tap. though holding it works
+    //I'm assuming this will help
+    reset_tap_dance(state);
+  }
 }
 
 void tap_cap_fun2_rst(qk_tap_dance_state_t *state, void *user_data) {
