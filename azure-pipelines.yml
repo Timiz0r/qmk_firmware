@@ -5,7 +5,11 @@ pool:
 steps:
 - bash: |
     sudo sh -c 'printf "APT::Get::Assume-Yes \"true\";\nAPT::Get::force-yes \"true\";" > /etc/apt/apt.conf.d/01qmk-build'
-    sudo util/linux_install.sh
+
+    #needed by linux_install.sh
+    sudo apt-get install python3-setuptools
+
+    ./util/linux_install.sh
 - bash: |
     make git-submodule
     make tkc1800:timiz0r
