@@ -11,6 +11,7 @@ steps:
     make tkc1800:timiz0r
     make planck/rev6:timiz0r
     make donutcables/budget96:timiz0r
+    make gray_studio/think65/hotswap:via
 - task: CopyFiles@2
   inputs:
     contents: .build/*.hex
